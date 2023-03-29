@@ -1,66 +1,74 @@
 class Contact {
-    constructor(firstName, lastName, address, city, state, zip, phoneNumber, email) {
+    constructor(firstName, lastName, address, city, state, zip, phone, email) {
+      if (!this.validateName(firstName)) {
+        throw new Error("Invalid first name.");
+      }
+      if (!this.validateName(lastName)) {
+        throw new Error("Invalid last name.");
+      }
+      if (!this.validateAddress(address)) {
+        throw new Error("Invalid address.");
+      }
+      if (!this.validateAddress(city)) {
+        throw new Error("Invalid city.");
+      }
+      if (!this.validateAddress(state)) {
+        throw new Error("Invalid state.");
+      }
+      if (!this.validateZip(zip)) {
+        throw new Error("Invalid zip code.");
+      }
+      if (!this.validatePhone(phone)) {
+        throw new Error("Invalid phone number.");
+      }
+      if (!this.validateEmail(email)) {
+        throw new Error("Invalid email address.");
+      }
+  
       this.firstName = firstName;
       this.lastName = lastName;
       this.address = address;
       this.city = city;
       this.state = state;
       this.zip = zip;
-      this.phoneNumber = phoneNumber;
+      this.phone = phone;
       this.email = email;
     }
-  }
   
-  class AddressBook {
-    constructor() {
-      this.contacts = [];
+    validateName(name) {
+      return /^[A-Z][a-z]{2,}$/.test(name);
     }
   
-    addContact(contact) {
-      this.contacts.push(contact);
+    validateAddress(address) {
+      return /^[A-Za-z0-9\s,'-]{4,}$/.test(address);
     }
   
-    deleteContact(contact) {
-      const index = this.contacts.indexOf(contact);
-      if (index !== -1) {
-        this.contacts.splice(index, 1);
-      }
+    validateZip(zip) {
+      return /^\d{5}$/.test(zip);
     }
   
-    getContacts() {
-      return this.contacts;
+    validatePhone(phone) {
+      return /^\d{10}$/.test(phone);
     }
   
-    searchContacts(query) {
-      return this.contacts.filter(contact => {
-        return (
-          contact.firstName.includes(query) ||
-          contact.lastName.includes(query) ||
-          contact.phoneNumber.includes(query) ||
-          contact.email.includes(query)
-        );
-      });
-    }
-  
-    getNames() {
-      return this.contacts.map(contact => `${contact.firstName} ${contact.lastName}`);
-    }
-  
-    getTotalContacts() {
-      return this.contacts.reduce((total, contact) => {
-        return total + 1;
-      }, 0);
+    validateEmail(email) {
+      return /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(email);
     }
   }
   
   // Example usage
-  const addressBook = new AddressBook();
-  
-  const contact1 = new Contact('John', 'Doe', '123 Main St', 'Anytown', 'CA', '12345', '555-555-5555', 'john.doe@example.com');
-  addressBook.addContact(contact1);
-  
-  const contact2 = new Contact('Jane', 'Smith', '456 Elm St', 'Othertown', 'CA', '54321', '555-555-1234', 'jane.smith@example.com');
-  addressBook.addContact(contact2);
-  
-  console.log(addressBook.getNames()); // Output: ["John Doe", "Jane Smith"]
-  console.log(addressBook.getTotalContacts()); // Output: 2
+  try {
+    const contact = new Contact(
+      "John",
+      "Doe",
+      "123 Main St",
+      "Anytown",
+      "CA",
+      "12345",
+      "5555555555",
+      "johndoe@example.com"
+    );
+    console.log(contact);
+  } catch (error) {
+    console.log(error.message);
+  }

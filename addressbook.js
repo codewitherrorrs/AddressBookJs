@@ -1,24 +1,27 @@
-class Contact {
-    constructor(name, email) {
-      this.name = name;
-      this.email = email;
-    }
-  }
-  
-  const contacts = [
-    new Contact('John Doe', 'johndoe@example.com'),
-    new Contact('Jane Doe', 'janedoe@example.com'),
-    new Contact('Bob Smith', 'bobsmith@example.com')
+let contacts = [
+    { name: "John Smith", email: "john@example.com", phone: "123-456-7890" },
+    { name: "Jane Doe", email: "jane@example.com", phone: "987-654-3210" },
+    { name: "Bob Johnson", email: "bob@example.com", phone: "555-555-5555" }
   ];
   
-  function editContact(name, newEmail) {
-    const contact = contacts.find(contact => contact.name === name);
-    if (!contact) {
-      throw new Error(`Contact ${name} not found`);
+  // Function to delete a contact by name
+  function deleteContact(name) {
+    let index = -1;
+    for (let i = 0; i < contacts.length; i++) {
+      if (contacts[i].name === name) {
+        index = i;
+        break;
+      }
     }
-    contact.email = newEmail;
+    if (index !== -1) {
+      contacts.splice(index, 1);
+      console.log(`Deleted contact: ${name}`);
+    } else {
+      console.log(`Contact not found: ${name}`);
+    }
   }
   
-  editContact('Jane Doe', 'janedoe-new@example.com');
-  console.log(contacts); // Output: [Contact {name: 'John Doe', email: 'johndoe@example.com'}, Contact {name: 'Jane Doe', email: 'janedoe-new@example.com'}, Contact {name: 'Bob Smith', email: 'bobsmith@example.com'}]
+  // Example usage
+  deleteContact("Jane Doe");
+  console.log(contacts);
   

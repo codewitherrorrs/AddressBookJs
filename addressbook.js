@@ -1,74 +1,58 @@
 class Contact {
-    constructor(firstName, lastName, address, city, state, zip, phone, email) {
-      if (!this.validateName(firstName)) {
-        throw new Error("Invalid first name.");
-      }
-      if (!this.validateName(lastName)) {
-        throw new Error("Invalid last name.");
-      }
-      if (!this.validateAddress(address)) {
-        throw new Error("Invalid address.");
-      }
-      if (!this.validateAddress(city)) {
-        throw new Error("Invalid city.");
-      }
-      if (!this.validateAddress(state)) {
-        throw new Error("Invalid state.");
-      }
-      if (!this.validateZip(zip)) {
-        throw new Error("Invalid zip code.");
-      }
-      if (!this.validatePhone(phone)) {
-        throw new Error("Invalid phone number.");
-      }
-      if (!this.validateEmail(email)) {
-        throw new Error("Invalid email address.");
-      }
-  
-      this.firstName = firstName;
-      this.lastName = lastName;
-      this.address = address;
-      this.city = city;
-      this.state = state;
-      this.zip = zip;
-      this.phone = phone;
+    constructor(name, email, phone) {
+      this.name = name;
       this.email = email;
-    }
-  
-    validateName(name) {
-      return /^[A-Z][a-z]{2,}$/.test(name);
-    }
-  
-    validateAddress(address) {
-      return /^[A-Za-z0-9\s,'-]{4,}$/.test(address);
-    }
-  
-    validateZip(zip) {
-      return /^\d{5}$/.test(zip);
-    }
-  
-    validatePhone(phone) {
-      return /^\d{10}$/.test(phone);
-    }
-  
-    validateEmail(email) {
-      return /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(email);
+      this.phone = phone;
     }
   }
   
-  // Example usage
-  try {
-    const contact = new Contact(
-      "John",
-      "Doe",
-      "123 Main St",
-      "Anytown",
-      "CA",
-      "12345",
-      "5555555555",
-      "johndoe@example.com"
-    );
-    console.log(contact);
-  } catch (error) {
-    console.log(error.message);
+  class AddressBook {
+    constructor() {
+      this.contacts = [];
+    }
+  
+    addContact(contact) {
+      if (!(contact instanceof Contact)) {
+        throw new Error("Provided object is not a valid contact.");
+      }
+      this.contacts.push(contact);
+    }
+  
+    filterContactsByName(name) {
+      return this.contacts.filter((contact) => contact.name.toLowerCase().includes(name.toLowerCase()));
+    }
+  
+    mapContactsToEmails() {
+      return this.contacts.map((contact) => contact.email);
+    }
+  
+    reduceContactsToPhoneNumbers() {
+      return this.contacts.reduce((phoneNumbers, contact) => {
+        phoneNumbers.push(contact.phone);
+        return phoneNumbers;
+      }, []);
+    }
   }
+  
+  // Create a new AddressBook instance
+  const myAddressBook = new AddressBook();
+  
+  // Add some contacts
+  const john = new Contact("John Doe", "john.doe@example.com", "555-1234");
+  myAddressBook.addContact(john);
+  
+  const jane = new Contact("Jane Smith", "jane.smith@example.com", "555-5678");
+  myAddressBook.addContact(jane);
+  
+  // Filter contacts by name
+  const filteredContacts = myAddressBook.filterContactsByName("john");
+  console.log(filteredContacts);
+  
+  // Map contacts to emails
+  const mappedContacts = myAddressBook.mapContactsToEmails();
+  console.log(mappedContacts);
+  
+  // Reduce contacts to phone numbers
+  const reducedContacts = myAddressBook.reduceContactsToPhoneNumbers();
+  console.log(reducedContacts);
+  

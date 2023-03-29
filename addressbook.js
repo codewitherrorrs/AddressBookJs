@@ -1,58 +1,24 @@
 class Contact {
-    constructor(name, email, phone) {
+    constructor(name, email) {
       this.name = name;
       this.email = email;
-      this.phone = phone;
     }
   }
   
-  class AddressBook {
-    constructor() {
-      this.contacts = [];
-    }
+  const contacts = [
+    new Contact('John Doe', 'johndoe@example.com'),
+    new Contact('Jane Doe', 'janedoe@example.com'),
+    new Contact('Bob Smith', 'bobsmith@example.com')
+  ];
   
-    addContact(contact) {
-      if (!(contact instanceof Contact)) {
-        throw new Error("Provided object is not a valid contact.");
-      }
-      this.contacts.push(contact);
+  function editContact(name, newEmail) {
+    const contact = contacts.find(contact => contact.name === name);
+    if (!contact) {
+      throw new Error(`Contact ${name} not found`);
     }
-  
-    filterContactsByName(name) {
-      return this.contacts.filter((contact) => contact.name.toLowerCase().includes(name.toLowerCase()));
-    }
-  
-    mapContactsToEmails() {
-      return this.contacts.map((contact) => contact.email);
-    }
-  
-    reduceContactsToPhoneNumbers() {
-      return this.contacts.reduce((phoneNumbers, contact) => {
-        phoneNumbers.push(contact.phone);
-        return phoneNumbers;
-      }, []);
-    }
+    contact.email = newEmail;
   }
   
-  // Create a new AddressBook instance
-  const myAddressBook = new AddressBook();
-  
-  // Add some contacts
-  const john = new Contact("John Doe", "john.doe@example.com", "555-1234");
-  myAddressBook.addContact(john);
-  
-  const jane = new Contact("Jane Smith", "jane.smith@example.com", "555-5678");
-  myAddressBook.addContact(jane);
-  
-  // Filter contacts by name
-  const filteredContacts = myAddressBook.filterContactsByName("john");
-  console.log(filteredContacts);
-  
-  // Map contacts to emails
-  const mappedContacts = myAddressBook.mapContactsToEmails();
-  console.log(mappedContacts);
-  
-  // Reduce contacts to phone numbers
-  const reducedContacts = myAddressBook.reduceContactsToPhoneNumbers();
-  console.log(reducedContacts);
+  editContact('Jane Doe', 'janedoe-new@example.com');
+  console.log(contacts); // Output: [Contact {name: 'John Doe', email: 'johndoe@example.com'}, Contact {name: 'Jane Doe', email: 'janedoe-new@example.com'}, Contact {name: 'Bob Smith', email: 'bobsmith@example.com'}]
   

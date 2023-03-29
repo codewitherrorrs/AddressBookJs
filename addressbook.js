@@ -1,46 +1,32 @@
 const contacts = [
-    {
-      name: 'John Doe',
-      city: 'New York',
-      state: 'NY',
-      phone: '555-555-5555'
-    },
-    {
-      name: 'Jane Smith',
-      city: 'Los Angeles',
-      state: 'CA',
-      phone: '555-555-5555'
-    },
-    {
-      name: 'Bob Johnson',
-      city: 'New York',
-      state: 'NY',
-      phone: '555-555-5555'
-    },
-    {
-      name: 'Alice Lee',
-      city: 'San Francisco',
-      state: 'CA',
-      phone: '555-555-5555'
-    }
+    { name: 'John Doe', city: 'New York', state: 'New York' },
+    { name: 'Jane Smith', city: 'Los Angeles', state: 'California' },
+    { name: 'Bob Johnson', city: 'Chicago', state: 'Illinois' },
+    { name: 'Mike Williams', city: 'Chicago', state: 'Illinois' },
+    { name: 'Mary Davis', city: 'San Francisco', state: 'California' },
+    { name: 'David Lee', city: 'New York', state: 'New York' }
   ];
   
-  // Filter contacts by city
-  const contactsInNYC = contacts.filter(contact => contact.city === 'New York');
-  console.log('Contacts in NYC:', contactsInNYC);
+  // Get count of contacts by city
+  const contactsByCity = contacts.reduce((acc, curr) => {
+    if (acc[curr.city]) {
+      acc[curr.city]++;
+    } else {
+      acc[curr.city] = 1;
+    }
+    return acc;
+  }, {});
   
-  // Filter contacts by state
-  const contactsInCA = contacts.filter(contact => contact.state === 'CA');
-  console.log('Contacts in CA:', contactsInCA);
+  console.log('Contacts by city:', contactsByCity);
   
-  // Map contacts to names and filter by city
-  const namesInNYC = contacts
-    .filter(contact => contact.city === 'New York')
-    .map(contact => contact.name);
-  console.log('Names in NYC:', namesInNYC);
+  // Get count of contacts by state
+  const contactsByState = contacts.reduce((acc, curr) => {
+    if (acc[curr.state]) {
+      acc[curr.state]++;
+    } else {
+      acc[curr.state] = 1;
+    }
+    return acc;
+  }, {});
   
-  // Map contacts to names and filter by state
-  const namesInCA = contacts
-    .filter(contact => contact.state === 'CA')
-    .map(contact => contact.name);
-  console.log('Names in CA:', namesInCA);
+  console.log('Contacts by state:', contactsByState);
